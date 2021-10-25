@@ -12,6 +12,8 @@ class CalculatorViewController: UIViewController {
     
     //MARK: - IBOutlets
     var tip: Float = 0.0
+    var stringResult = ""
+    
     
     @IBOutlet weak var billTextField: UITextField!
     
@@ -41,8 +43,6 @@ class CalculatorViewController: UIViewController {
             twentyPctButton.isSelected = true
             tip = 0.2
         }
-        
-        
     }
     
     @IBAction func stepperValueChanged(_ sender: UIStepper) {
@@ -55,8 +55,20 @@ class CalculatorViewController: UIViewController {
         let tips = sum * tip
         let split = Float(splitNumberLabel.text ?? "1") ?? 0
         let result = (sum + tips) / split
-        let stringResult = String(format: "%.2f", result)
+        stringResult = String(format: "%.2f", result)
         print(stringResult)
+        
+        performSegue(withIdentifier: "showResult", sender: self)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "showResult" {
+            let resultVC = segue.destination as! ResultsViewController
+            resultVC.result = stringResult
+            resultVC.tips = String(tip * 100)
+            resultVC.people = splitNumberLabel.text ?? "Smth wrong"
+            
+        }
     }
 }
 
