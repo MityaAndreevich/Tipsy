@@ -11,6 +11,8 @@ import UIKit
 class CalculatorViewController: UIViewController {
     
     //MARK: - IBOutlets
+    var tip: Float = 0.0
+    
     @IBOutlet weak var billTextField: UITextField!
     
     @IBOutlet weak var zeroPctButton: UIButton!
@@ -21,33 +23,40 @@ class CalculatorViewController: UIViewController {
     
     //MARK: - IBActions
     @IBAction func tipChanged(_ sender: UIButton) {
+        billTextField.endEditing(true)
+        
         if sender == zeroPctButton {
             zeroPctButton.isSelected = true
             tenPctButton.isSelected = false
             twentyPctButton.isSelected = false
+            tip = 0.0
         } else if sender == tenPctButton {
             zeroPctButton.isSelected = false
             tenPctButton.isSelected = true
             twentyPctButton.isSelected = false
+            tip = 0.1
         } else {
             zeroPctButton.isSelected = false
             tenPctButton.isSelected = false
             twentyPctButton.isSelected = true
+            tip = 0.2
         }
+        
+        
     }
     
     @IBAction func stepperValueChanged(_ sender: UIStepper) {
+        
+        splitNumberLabel.text = String(format: "%.0f", sender.value)
     }
     
     @IBAction func calculatePressed(_ sender: UIButton) {
-        if zeroPctButton.isSelected == true {
-            print("0.0")
-        } else if tenPctButton.isSelected == true {
-            print("0.1")
-        } else {
-            print("0.2")
-        }
+        let sum = Float(billTextField.text ?? "0") ?? 0
+        let tips = sum * tip
+        let split = Float(splitNumberLabel.text ?? "1") ?? 0
+        let result = (sum + tips) / split
+        let stringResult = String(format: "%.2f", result)
+        print(stringResult)
     }
-    
 }
 
