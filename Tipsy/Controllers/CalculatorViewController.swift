@@ -10,11 +10,10 @@ import UIKit
 
 class CalculatorViewController: UIViewController {
     
-    //MARK: - IBOutlets
     var tip: Float = 0.0
     var stringResult = ""
     
-    
+    //MARK: - IBOutlets
     @IBOutlet weak var billTextField: UITextField!
     
     @IBOutlet weak var zeroPctButton: UIButton!
